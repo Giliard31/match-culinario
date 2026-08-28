@@ -1,12 +1,13 @@
 {
   "name": "match-culinario",
-  "version": "1.0.0",
-  "description": "App PWA de receitas baseadas no que tem na geladeira",
+  "version": "2.0.0",
+  "description": "App PWA avançado de receitas baseadas na geladeira",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "multer": "^1.4.5-lts.1"
   }
 }
