@@ -11,6 +11,14 @@ app.use(express.json());
 
 app.post('/api/analisar-geladeira', upload.single('foto'), (req, res) => {
     try {
+        let fotoBase64 = null;
+        
+        // Se o usuário mandou uma foto, convertemos para base64 para exibir na tela
+        if (req.file) {
+            const b64 = Buffer.from(req.file.buffer).toString('base64');
+            fotoBase64 = `data:${req.file.mimetype};base64,${b64}`;
+        }
+
         const ingredientesDetectados = ["Ovos", "Tomate", "Cebola", "Queijo Mussarela", "Arroz Cozido"];
 
         const receitasGeradas = [
@@ -21,7 +29,6 @@ app.post('/api/analisar-geladeira', upload.single('foto'), (req, res) => {
                 dificuldade: "Fácil",
                 compatibilidade: "95%",
                 fotoUrl: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?auto=format&fit=crop&w=600&q=80",
-                ingredientesUsados: ["Arroz Cozido", "Queijo Mussarela", "Tomate", "Cebola"],
                 ingredientesFaltantes: ["Requeijão (opcional)"],
                 modoPreparo: [
                     "Misture o arroz cozido com a cebola e o tomate picados.",
@@ -37,7 +44,6 @@ app.post('/api/analisar-geladeira', upload.single('foto'), (req, res) => {
                 dificuldade: "Muito Fácil",
                 compatibilidade: "85%",
                 fotoUrl: "https://images.unsplash.com/photo-1510693206972-df098062cb71?auto=format&fit=crop&w=600&q=80",
-                ingredientesUsados: ["Ovos", "Tomate", "Queijo Mussarela"],
                 ingredientesFaltantes: ["Sal e Orégano a gosto"],
                 modoPreparo: [
                     "Bata os ovos em um recipiente com um pouco de sal.",
@@ -45,27 +51,12 @@ app.post('/api/analisar-geladeira', upload.single('foto'), (req, res) => {
                     "Despeje em uma frigideira antiaderente ou assadeira pequena.",
                     "Tampe e deixe cozinhar em fogo baixo até firmar."
                 ]
-            },
-            {
-                id: 3,
-                nome: "Bruschetta Rústica de Frigideira",
-                tempo: "10 min",
-                dificuldade: "Fácil",
-                compatibilidade: "80%",
-                fotoUrl: "https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?auto=format&fit=crop&w=600&q=80",
-                ingredientesUsados: ["Tomate", "Cebola", "Queijo Mussarela"],
-                ingredientesFaltantes: ["Pão de forma ou francês"],
-                modoPreparo: [
-                    "Pique o tomate e a cebola em cubos bem pequenos.",
-                    "Tempere com um fio de azeite e sal.",
-                    "Coloque sobre fatias de pão, cubra com o queijo.",
-                    "Leve à frigideira tampada em fogo baixo até o queijo derreter."
-                ]
             }
         ];
 
         res.json({
             sucesso: true,
+            fotoGeladeira: fotoBase64, // Devolve a foto tirada pelo usuário
             ingredientes: ingredientesDetectados,
             receitas: receitasGeradas
         });
