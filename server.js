@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const multer = require('multer');
-const upload = multer({ storage: multer.memoryStorage() }); // Guarda a foto temporariamente na memória
+const upload = multer({ storage: multer.memoryStorage() });
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -9,13 +9,10 @@ const PORT = process.env.PORT || 3000;
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
-// Rota inteligente que analisa os ingredientes e retorna receitas completas
 app.post('/api/analisar-geladeira', upload.single('foto'), (req, res) => {
     try {
-        // Simulando a IA identificando itens da foto (aqui futuramente entra o Gemini Vision)
         const ingredientesDetectados = ["Ovos", "Tomate", "Cebola", "Queijo Mussarela", "Arroz Cozido"];
 
-        // Banco de dados simulado de receitas avançadas
         const receitasGeradas = [
             {
                 id: 1,
@@ -23,6 +20,7 @@ app.post('/api/analisar-geladeira', upload.single('foto'), (req, res) => {
                 tempo: "20 min",
                 dificuldade: "Fácil",
                 compatibilidade: "95%",
+                fotoUrl: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?auto=format&fit=crop&w=600&q=80",
                 ingredientesUsados: ["Arroz Cozido", "Queijo Mussarela", "Tomate", "Cebola"],
                 ingredientesFaltantes: ["Requeijão (opcional)"],
                 modoPreparo: [
@@ -38,6 +36,7 @@ app.post('/api/analisar-geladeira', upload.single('foto'), (req, res) => {
                 tempo: "15 min",
                 dificuldade: "Muito Fácil",
                 compatibilidade: "85%",
+                fotoUrl: "https://images.unsplash.com/photo-1510693206972-df098062cb71?auto=format&fit=crop&w=600&q=80",
                 ingredientesUsados: ["Ovos", "Tomate", "Queijo Mussarela"],
                 ingredientesFaltantes: ["Sal e Orégano a gosto"],
                 modoPreparo: [
@@ -45,6 +44,22 @@ app.post('/api/analisar-geladeira', upload.single('foto'), (req, res) => {
                     "Misture o tomate picado e o queijo em cubos.",
                     "Despeje em uma frigideira antiaderente ou assadeira pequena.",
                     "Tampe e deixe cozinhar em fogo baixo até firmar."
+                ]
+            },
+            {
+                id: 3,
+                nome: "Bruschetta Rústica de Frigideira",
+                tempo: "10 min",
+                dificuldade: "Fácil",
+                compatibilidade: "80%",
+                fotoUrl: "https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?auto=format&fit=crop&w=600&q=80",
+                ingredientesUsados: ["Tomate", "Cebola", "Queijo Mussarela"],
+                ingredientesFaltantes: ["Pão de forma ou francês"],
+                modoPreparo: [
+                    "Pique o tomate e a cebola em cubos bem pequenos.",
+                    "Tempere com um fio de azeite e sal.",
+                    "Coloque sobre fatias de pão, cubra com o queijo.",
+                    "Leve à frigideira tampada em fogo baixo até o queijo derreter."
                 ]
             }
         ];
@@ -61,5 +76,5 @@ app.post('/api/analisar-geladeira', upload.single('foto'), (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`MatchCulinário V2 rodando na porta ${PORT}`);
+    console.log(`MatchCulinário Pro rodando na porta ${PORT}`);
 });
